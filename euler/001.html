@@ -1,0 +1,192 @@
+<html>
+	
+	<head>
+		<link rel="shortcut icon" href="../level_2.png">
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">		
+		<link rel="stylesheet" href="../style.css">
+		<title>Multiples of 3 and 5</title>
+	</head>
+	
+	<body>
+	
+		<div id='navbar' class="container">
+			<header>
+				<nav class="navbar navbar-expand-lg navbar-light" style="background-color: lightBlue">
+					<a class="navbar-brand" href="../index.html">Jonny Bloom</a>
+					<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+					</button>
+
+					<div class="collapse navbar-collapse" id="navbarSupportedContent">
+					<ul class="navbar-nav mr-auto">
+						<li class="nav-item active">
+						<a class="nav-link" href="home.html">PE Home <span class="sr-only">(current)</span></a>
+						</li>
+						<li class="nav-item">
+						<a class="nav-link" href="#">The Rest of These Don't Do Anything</a>
+						</li>
+						<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							lol
+						</a>
+						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+							<a class="dropdown-item" href="#">Action</a>
+							<a class="dropdown-item" href="#">Another action</a>
+							<div class="dropdown-divider"></div>
+							<a class="dropdown-item" href="#">Something else here</a>
+						</div>
+						</li>
+						<li class="nav-item">
+						<a class="nav-link disabled" href="#">Disabled</a>
+						</li>
+					</ul>
+					<form class="form-inline my-2 my-lg-0">
+						<input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+						<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+					</form>
+					</div>
+				</nav>
+			</header>
+		</div>
+		
+		<br>
+		
+		<div class="container">
+			<section id='problem'>
+				<h1>
+					The Problem:
+				</h1>
+				<p>
+					If we list all the natural number below 10 that are multiples of 3 or 5,
+					we get 3, 5, 6 and 9. The sum of these multiples is 23. <br>
+					Find the sum of all the multiples of 3 or 5 below 1000.
+					<br>
+					<br>
+					<a href="https://www.projecteuler.net/problem=1">Original Problem Statement</a>
+				</p>
+			</section>
+		</div>
+		
+		<br>
+		
+		<div class="container">
+			<section id='explanation'>
+				<h1>
+					Explanation:
+				</h1>
+				<p>
+					As you may have seen in the code, I provided two solutions. The linear time solution is the more
+					straightforward one. In this one you simply loop through all possible numbers from 1 to 1000 and
+					check for divisibility using the <a href='https://en.wikipedia.org/wiki/Modular_arithmetic'>modulus operator (%)</a>.
+					If the number is divisible by either 3 or 5, increase the sum. When the loop is over, just print
+					out the sum. <br> The other approach is a bit more complicated. You can think of the final sum
+					by cutting out all the numbers not divisible, and perhaps just count by 3s and 5s. If you look at
+					all multiples of 3, you get the <a href='https://en.wikipedia.org/wiki/Arithmetic_progression'>arithmetic sequence</a>
+					3, 6, 9, 12, &hellip;. Likewise, looking at the multiples of 5, we get 5, 10, 15, &hellip;. Surely,
+					we can find a way to find the sum of each sequence and then add them together! If you remember from
+					high school algebra, you can find the sum of an arithmetic progression by the simple formula:
+				</p>
+				<img class='bigmath' src='images/img001-1.gif' alt='n/2*(a_1+a_n)'>
+				<p>
+					Using this formula, we can easily compute the sum of the multiples of 3 and of 5. If we go ahead
+					and compute this result, surprisingly, it comes up wrong. What did we do wrong? After thinking about
+					it for a while, and maybe listing out the multiples of 3 and 5, we notice that there are common
+					multiples between the two of them. For example, 45 is divisible by both 3 and 5. Therefore, we are
+					counting 45 twice. Looking at all of the numbers that both lists have in common, we get the following
+					15, 30, 45, 60, &hellip;. OMG, it's all multiples of 15! Now, all we have to do is keep our sum from
+					above and subtract the sum of all multiples of 15, using the same formula above. Once, that is
+					implemented, the correct answer should just make its way onto your computer screen.
+				</p>
+			</section>
+		</div>
+		
+		<br>
+		
+		<div class="container">
+			<section id='code'>
+				<h1>
+					My Code:
+				</h1>
+				<p>
+					Here is my Java code to find the solution!
+				</p>
+				
+				<pre><code><table class='code'>
+					<tr><td>&nbsp;</td></tr>
+					<tr><td><span class='keyword'>public</span> <span class='keyword'>class</span> Solution {</td></tr>
+					<tr><td>&nbsp;</td></tr>
+					<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;<span class='keyword'>public</span> <span class='keyword'>static</span> <span class='keyword'>void</span> main(String[] <span class='parameter'>args</span>) {</td></tr>
+					<tr><td>&nbsp;</td></tr>
+					<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class='staticmethod'>linearSolution</span>(1000);</td></tr>
+					<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class='staticmethod'>boundedSolution</span>(1000);</td></tr>
+					<tr><td>&nbsp;</td></tr>
+					<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;}</td></tr>
+					<tr><td>&nbsp;</td></tr>
+					<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;<span class='keyword'>public</span> <span class='keyword'>static</span> <span class='keyword'>void</span> linearSolution(<span class='keyword'>int</span> <span class='parameter'>n</span>) {</td></tr>
+					<tr><td>&nbsp;</td></tr>
+					<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class='keyword'>long</span> <span class='localvar'>startTime</span> = <span class='staticmethod'>System.currentTimeMillis</span>();</td></tr>
+					<tr><td>&nbsp;</td></tr>
+					<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class='keyword'>int</span> <span class='localvar'>sum</span> = 0;</td></tr>
+					<tr><td>&nbsp;</td></tr>
+					<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class='comment'>// Loop through all the values from 1 to n</span></td></tr>
+					<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class='keyword'>for</span> (<span class='keyword'>int</span> <span class='localvar'>i</span> = 0; i &lt; <span class='parameter'>n</span>; <span class='localvar'>i</span>++) {</td></tr>
+					<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class='keyword'>if</span> (<span class='localvar'>i</span> % 3 == 0 || <span class='localvar'>i</span> % 5 == 0) {</td></tr>
+					<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class='localvar'>sum</span> += <span class='localvar'>i</span>; <span class='comment'>// Only count a number towards the sum if it is divisible by 3 or 5</span></td></tr>
+					<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</td></tr>
+					<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</td></tr>
+					<tr><td>&nbsp;</td></tr>
+					<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class='keyword'>long</span> <span class='localvar'>time</span> = System.<span class='staticmethod'>currentTimeMillis</span>() - <span class='localvar'>startTime</span>;</td></tr>
+					<tr><td>&nbsp;</td></tr>
+					<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.<span class='staticfinal'>out</span>.println(<span class='string'>"Linear Solution: "</span> + <span class='localvar'>sum<span>);</td></tr>
+					<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.<span class='staticfinal'>out</span>.println(<span class='string'>"Runtime: "</span> + (<span class='localvar'>time</span>/1000) + <span class='string'>"."</span> + (<span class='localvar'>time</span>%1000) + <span class='string'>"s"</span>);</td></tr>
+					<tr><td>&nbsp;</td></tr>
+					<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;}</td></tr>
+					<tr><td>&nbsp;</td></tr>
+					<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;<span class='keyword'>public</span> <span class='keyword'>static</span> <span class='keyword'>void</span> boundedSolution(<span class='keyword'>int</span> <span class='parameter'>n</span>) {</td></tr>
+					<tr><td>&nbsp;</td></tr>
+					<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class='keyword'>long</span> <span class='localvar'>startTime</span> = System.<span class='staticmethod'>currentTimeMillis</span>();</td></tr>
+					<tr><td>&nbsp;</td></tr>
+					<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class='keyword'>int</span> <span class='localvar'>sum</span> = 0;</td></tr>
+					<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class='keyword'>int</span> <span class='localvar'>num3</span> = (<span class='parameter'>n</span>-1)/3; <span class='comment'>// This represents the number of multiples of 3 there are</span></td></tr>
+					<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class='keyword'>int</span> <span class='localvar'>num5</span> = (<span class='parameter'>n</span>-1)/5; <span class='comment'>// This represents the number of multiples of 5 there are</span></td></tr>
+					<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class='keyword'>int</span> <span class='localvar'>num15</span> = (<span class='parameter'>n</span>-1)/15; <span class='comment'>// This represents the number of multiples of 15 there are</span></td></tr>
+					<tr><td>&nbsp;</td></tr>
+					<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class='localvar'>sum</span> += (3 + 3*<span class='localvar'>num3</span>) * <span class='localvar'>num3</span>/2; <span class='comment'>// This should be the sum of all multiples of 3</span></td></tr>
+					<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class='localvar'>sum</span> += (5 + 5*<span class='localvar'>num5</span>) * <span class='localvar'>num5</span>/2; <span class='comment'>// This should be the sum of all multiples of 5</span></td></tr>
+					<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class='localvar'>sum</span> -= (15 + 15*<span class='localvar'>num15</span>) * <span class='localvar'>num15</span>/2; <span class='comment'>// This should be the sum of all multiples of 15</span></td></tr>
+					<tr><td>&nbsp;</td></tr>
+					<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class='keyword'>long</span> <span class='localvar'>time</span> = System.<span class='staticmethod'>currentTimeMillis</span>() - <span class='localvar'>startTime</span>;</td></tr>
+					<tr><td>&nbsp;</td></tr>
+					<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.<span class='staticfinal'>out</span>.println(<span class='string'>"Bounded Solution: "</span> + <span class='localvar'>sum</span>);</td></tr>
+					<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.<span class='staticfinal'>out</span>.println(<span class='string'>"Runtime: "</span> + (<span class='localvar'>time</span>/1000) + <span class='string'>"."</span> + (<span class='localvar'>time</span>%1000) + <span class='string'>"s"</span>);</td></tr>
+					<tr><td>&nbsp;</td></tr>
+					<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;}</td></tr>
+					<tr><td>&nbsp;</td></tr>
+					<tr><td>}</td></tr>
+					<tr><td>&nbsp;</td></tr>
+				</table></code></pre>
+			</section>
+		</div>
+		
+		<br>
+		
+		<div class="container">
+			<section id='progress'>
+				<h1>
+					Progress:
+				</h1>
+				<p>
+					Here is my progress in Project Euler. Click on any highlighted number to see my solution to the problem.
+				</p>
+			</section>
+		</div>
+		
+		<br>
+		
+		<script src='heatmap.js'></script>
+		<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+	</body>
+	
+</html>
