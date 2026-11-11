@@ -1,0 +1,72 @@
+<html>
+	<head>
+		<title>Hexagonal Grid</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+		<style>
+			canvas {
+				border:1px solid #d3d3d3;
+				background-color: #f1f1f1;
+				padding-left: 0;
+				padding-right: 0;
+				padding-top: 0;
+				padding-bottom: 0;
+				margin-left: auto;
+				margin-right: auto;
+				margin-top: auto;
+				margin-bottom: auto;
+				display: block;
+			}
+		</style>
+	</head>
+
+	<body onload="startGame()">
+
+		<!-- <button onclick="gameArea.stop()">Stop</button> -->
+
+		<script>
+
+			function startGame() {
+				gameArea.start();
+			}
+
+			var gameArea = {
+				canvas : document.createElement('canvas'),
+				start : function() {
+					this.canvas.width = .90 * window.innerWidth;
+					this.canvas.height = .90 * window.innerHeight;
+					this.context = this.canvas.getContext('2d');
+					document.body.insertBefore(this.canvas, document.body.childNodes[0]);
+					this.frameNo = 0;
+					this.interval = setInterval(draw, 20);
+				},
+				stop : function() {
+					clearInterval(this.interval);
+				},
+				clear : function() {
+					this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+				}
+			}
+			
+			function draw() {
+				gameArea.clear();
+
+				for (var i = -50; i < 50; i++) {
+					for (var j = 0; j < 50; j++) {
+						gameArea.context.beginPath();
+						gameArea.context.arc(50*i + 25*j, 25 * Math.sqrt(3) * j, 1, 0, 2 * Math.PI);
+						gameArea.context.fillStyle = 'black';
+						gameArea.context.fill();
+						gameArea.context.lineWidth = 1;
+						gameArea.context.strokeStyle = 'black';
+						gameArea.context.stroke();
+					}
+				}
+				var w = Math.floor(Math.random() * gameArea.canvas.width);
+				var h = Math.floor(Math.random() * gameArea.canvas.height);
+				//gameArea.context.fillRect(0,0,w,h);
+			}
+
+		</script>
+
+	</body>
+</html>
