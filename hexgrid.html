@@ -21,7 +21,8 @@
 
 	<body onload="startGame()">
 
-		<!-- <button onclick="gameArea.stop()">Stop</button> -->
+		<button onclick="gameArea.zoomIn()">Zoom in</button>
+		<button onclick="gameArea.zoomOut()">Zoom out</button>
 
 		<script>
 
@@ -38,22 +39,30 @@
 					document.body.insertBefore(this.canvas, document.body.childNodes[0]);
 					this.frameNo = 0;
 					this.interval = setInterval(draw, 20);
+					this.zoom = 50;
 				},
 				stop : function() {
 					clearInterval(this.interval);
 				},
 				clear : function() {
 					this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+				},
+				zoomIn : function() {
+					this.zoom += 10;
+				},
+				zoomOut : function() {
+					if (this.zoom > 10)
+						this.zoom -= 10;
 				}
 			}
 			
 			function draw() {
 				gameArea.clear();
 
-				for (var i = -50; i < 50; i++) {
-					for (var j = 0; j < 50; j++) {
+				for (var i = -Math.floor(gameArea.canvas.height / (Math.sqrt(3) / 2 * gameArea.zoom)); i < gameArea.canvas.width / gameArea.zoom; i++) {
+					for (var j = 0; j <= gameArea.canvas.height / (Math.sqrt(3) / 2 * gameArea.zoom); j++) {
 						gameArea.context.beginPath();
-						gameArea.context.arc(50*i + 25*j, 25 * Math.sqrt(3) * j, 1, 0, 2 * Math.PI);
+						gameArea.context.arc(gameArea.zoom * i + gameArea.zoom * j / 2, gameArea.zoom * Math.sqrt(3) / 2 * j, 1, 0, 2 * Math.PI);
 						gameArea.context.fillStyle = 'black';
 						gameArea.context.fill();
 						gameArea.context.lineWidth = 1;
